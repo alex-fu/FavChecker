@@ -16,7 +16,7 @@ class ZombieItemPolicy
 {
     //TODO:
 
-}
+};
 
 
 #endif // _ZOMBIEITEMPOLICY_H_

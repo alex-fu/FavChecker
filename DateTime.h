@@ -14,6 +14,11 @@
 class DateTime
 {
 public:
+    DateTime()
+    {
+        this->datetime = 0;
+    }
+
     DateTime(long long datetime)
     {
         this->datetime = datetime;
@@ -22,6 +27,8 @@ public:
 private:
     long long datetime;
 };
+
+extern DateTime DFT_TIME;
 
 
 #endif // _DATETIME_H_

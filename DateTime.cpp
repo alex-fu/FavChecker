@@ -10,4 +10,4 @@
 
 #include "DateTime.h"
 
-DateTime DFT_TIME(0);
+DateTime DFT_TIME;

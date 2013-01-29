@@ -11,6 +11,7 @@
 #include <iostream>
 #include <sstream>
 #include "FavList.h"
+#include "Log.h"
 
 using namespace std;
 
@@ -20,18 +21,16 @@ using namespace std;
 //
 /////////////////////////////////////////
 
-static string FavItem::FavItemTypeStr[] = {
+string FavItem::FavItemTypeStr[] = {
     "Default Fav Item",
     "User Defined Fav Item",
-    "Auto Generate Fav Item",
-    ""
+    "Auto Generate Fav Item"
 };
 
-static string FavItem::FavItemStsStr[] = {
+string FavItem::FavItemStsStr[] = {
     "Default Fav Item Status",
     "Has New Update on Fav Item",
-    "No New Updates on Fav Item",
-    ""
+    "No New Updates on Fav Item"
 };
 
 FavItem::FavItem(string url, FavItemType_e type)
@@ -123,7 +122,7 @@ int FavList::size(void)
     return _favList.size();
 }
 
-FavItem * operator[](int index)
+FavItem * FavList::operator[](int index)
 {
     //TODO
 
@@ -133,7 +132,7 @@ FavItem * FavList::addFavItem(std::string url)
 {
     FavItem * fi = NULL;
 
-    fi = new FavItem(url, FavItemType_UserDefined);
+    fi = new FavItem(url, FavItem::FavItemType_UserDefined);
     //then attach to list
     _attachFavItem(fi);
 
@@ -261,7 +260,7 @@ FavItem * SubFavList::addFavItem(std::string url)
 {
     FavItem * fi = NULL;
 
-    fi = new FavItem(url, FavItemType_AutoGen);
+    fi = new FavItem(url, FavItem::FavItemType_AutoGen);
     //then attach to list
     _attachFavItem(fi);
 
