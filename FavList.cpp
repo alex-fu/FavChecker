@@ -8,8 +8,6 @@
 ///
 ////////////////////////////////////////////////////////////////
 
-#include <iostream>
-#include <sstream>
 #include "FavList.h"
 #include "Log.h"
 #include "FavCheckerException.h"
@@ -22,13 +20,13 @@ using namespace std;
 //
 /////////////////////////////////////////
 
-string FavItem::FavItemTypeStr[] = {
+const char* FavItem::FavItemTypeStr[] = {
     "Default Fav Item",
     "User Defined Fav Item",
     "Auto Generate Fav Item"
 };
 
-string FavItem::FavItemStsStr[] = {
+const char* FavItem::FavItemStsStr[] = {
     "Default Fav Item Status",
     "Has New Update on Fav Item",
     "No New Updates on Fav Item"
@@ -125,8 +123,7 @@ int FavList::size(void)
 
 FavItem * FavList::operator[](int index)
 {
-    //TODO
-
+    return _favList[index];
 }
 
 FavItem * FavList::addFavItem(std::string url)
@@ -160,6 +157,7 @@ void FavList::delFavItem(string url)
         //FIXME:
     }
     delete fi;
+    debug("Delete FavItem[url: %s] successful", url.c_str());
 }
 
 //return index for favItem if found, index begin from 0
@@ -201,7 +199,7 @@ void FavList::freeItems(void)
 void FavList::_attachFavItem(FavItem *favItem)
 {
     _favList.push_back(favItem);
-    debug("Add a new favitem[url: %s] to favlist", favItem->url.c_str());
+    debug("Attach a new favitem[url: %s] to favlist", favItem->getUrl().c_str());
 }
 
 void FavList::_detachFavItem(int index)
@@ -213,7 +211,7 @@ void FavList::_detachFavItem(int index)
             //use begin()+index to locate the iterator
             //index begin from 0
             _favList.erase(_favList.begin() + index);
-            debug("Delete favitem[url: %s] from favlist", favItem->url.c_str());
+            debug("Detach favitem[index: %d] from favlist", index);
         }
         else
         {
@@ -301,6 +299,7 @@ int unitTest_FavList()
         urlss << "http://www.example.com/test" << std::dec << i;
         list.addFavItem(urlss.str());
     }
+    cout << "UNIT TEST --- Added " << list.size() << " items to Fav List" << endl;
     //show list
     cout << "UNIT TEST --- Show Fav List" << endl;
     for(int i=0; i<list.size(); i++)

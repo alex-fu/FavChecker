@@ -30,10 +30,17 @@
 #define info(fmt, args...)  fprintf(stdout, STRINFO#fmt "\n", ##args)
 
 #ifdef _DEBUG
-#define debug(fmt, args...) fprintf(stdout, STRDEBUG#fmt#CRLF, ##args)
+#define debug(fmt, args...) fprintf(stdout, STRDEBUG#fmt "\n", ##args)
 #else
 #define debug(fmt, args...) 
 #endif
 
+#ifdef _DEBUG
+#define ENTER_FUNCTION()  fprintf(stdout, "[ENTER FUNCTION]: " __FUNCTION__ "\n")
+#define LEAVE_FUNCTION()  fprintf(stdout, "[LEAVE FUNCTION]: " __FUNCTION__ "\n")
+#else
+#define ENTER_FUNCTION() 
+#define LEAVE_FUNCTION()
+#endif
 
 #endif //_LOG_H_

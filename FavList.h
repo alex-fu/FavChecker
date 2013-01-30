@@ -8,8 +8,10 @@
 ///
 ////////////////////////////////////////////////////////////////
 
-#include <string>
-#include <vector>
+#ifndef _FAVLIST_H_
+#define _FAVLIST_H_
+
+#include "head.h"
 #include "DateTime.h"
 #include "ZombieItemPolicy.h"
 
@@ -36,8 +38,8 @@ public:
         FavItemSts_MAX
     }FavItemSts_e;
 
-    static std::string FavItemTypeStr[FavItemType_MAX];
-    static std::string FavItemStsStr[FavItemSts_MAX];
+    const static char* FavItemTypeStr[FavItemType_MAX];
+    const static char* FavItemStsStr[FavItemSts_MAX];
 
     FavItem(std::string url, FavItemType_e type);
     FavItem(std::string arString);
@@ -132,3 +134,5 @@ private:
 #ifdef _UNIT_TEST
 int unitTest_FavList(void);
 #endif
+
+#endif //_FAVLIST_H_
