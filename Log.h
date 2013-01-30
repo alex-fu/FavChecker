@@ -11,6 +11,8 @@
 #ifndef _LOG_H_
 #define _LOG_H_
 
+#include <stdio.h>
+
 #define STRERROR "[Error]: "
 #define STRWARN  "[Warn ]: "
 #define STRINFO  "[Info ]: "

@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////
 ///
-/// @file FavList.h
+/// @file FavCheckerException.h
 /// @brief This file describe the Favourite list class
 /// @author Alex Fu <alex.fu@emc.com>
 /// @version 1.0
@@ -15,9 +15,10 @@
 
 class FavCheckerException : public std::exception
 {
+public:
     virtual const char * what() const throw()
     {
-        return "FavCheckerException happened!"
+        return "FavCheckerException happened!";
     }
 };
 

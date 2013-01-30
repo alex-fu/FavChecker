@@ -12,6 +12,7 @@
 #include <sstream>
 #include "FavList.h"
 #include "Log.h"
+#include "FavCheckerException.h"
 
 using namespace std;
 
@@ -164,11 +165,11 @@ void FavList::delFavItem(string url)
 //return index for favItem if found, index begin from 0
 int FavList::findFavItem(string url)
 {
-    if(!empty(_favList))
+    if(!_favList.empty())
     {
         for(int i=0; i<_favList.size(); i++)
         {
-            if(_favList[i]->url.compare(url) == 0)
+            if(_favList[i]->getUrl().compare(url) == 0)
             {
                 //found it
                 debug("Found the favItem[url: %s] in favlist[index: %d]", url.c_str(), i);
@@ -188,12 +189,12 @@ int FavList::findFavItem(string url)
 
 void FavList::freeItems(void)
 {
-    vlen = _favList.size();
+    int vlen = _favList.size();
     for(int i=0; i<vlen; i++)
     {
         //TODO: Try to substitute with iterator
         FavItem * fi = _favList[i];
-        delFavItem(fi);
+        delFavItem(fi->getUrl());
     }
 }
 
@@ -205,7 +206,7 @@ void FavList::_attachFavItem(FavItem *favItem)
 
 void FavList::_detachFavItem(int index)
 {
-    if(!empty(_favList))
+    if(!_favList.empty())
     {
         if(index != INVALID_VECTOR_INDEX)
         {
@@ -216,7 +217,7 @@ void FavList::_detachFavItem(int index)
         }
         else
         {
-            warn("Didn't find favitem[url: %s] in favlist", favItem->url.c_str());
+            warn("Didn't find favitem[index: %d] in favlist", index);
         }
     }
     warn("FavList is empty");
@@ -245,10 +246,10 @@ void FavList::unpack(string arString)
 //
 /////////////////////////////////////////
 
-SubFavList::SubFavList(void)
-    : _type(FavListType_Sub)
+SubFavList::SubFavList()
 {
     ziPolicy = NULL;
+    _type = FavListType_Sub;
 }
 
 SubFavList::~SubFavList(void)

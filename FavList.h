@@ -106,7 +106,7 @@ public:
 
 protected:
     void _attachFavItem(FavItem * favItem);
-    void _detachFavItem(FavItem * favItem);
+    void _detachFavItem(int index);
 
 protected:
     std::vector<FavItem *> _favList;
@@ -117,8 +117,8 @@ protected:
 class SubFavList : public FavList
 {
 public:
-    SubFavList(void);
-    virtual ~SubFavList(void);
+    SubFavList();
+    virtual ~SubFavList();
 
     virtual FavItem * addFavItem(std::string url);
 
