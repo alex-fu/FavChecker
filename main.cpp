@@ -10,9 +10,14 @@
 
 #include <iostream>
 #include <sstream>
-#include "FavList.h"
 
 using namespace std;
+
+
+#ifdef _UNIT_TEST
+extern int unitTest_FavList(void);
+#endif
+
 
 int main(int argc, char *argv[])
 {

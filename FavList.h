@@ -151,8 +151,4 @@ private:
 
 };
 
-#ifdef _UNIT_TEST
-int unitTest_FavList(void);
-#endif
-
 #endif //_FAVLIST_H_
