@@ -12,6 +12,10 @@
 #include <iostream>
 #include <sstream>
 #include <iomanip>
+#include <algorithm>
+#include <boost/bind.hpp>
+
+#include "types.h"
 
 
 #endif //_HEAD_H_

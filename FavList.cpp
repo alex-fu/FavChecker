@@ -86,6 +86,7 @@ string FavItem::pack(void)
     //    sublist.pack();
     //}
     //Third, combine them together
+    return "Unrealized";
 }
 
 void FavItem::unpack(string arString)
@@ -116,7 +117,7 @@ FavList::~FavList(void)
     freeItems();
 }
 
-int FavList::size(void)
+uint32_t FavList::size(void)
 {
     return _favList.size();
 }
@@ -140,11 +141,25 @@ FavItem * FavList::addFavItem(std::string url)
 void FavList::delFavItem(string url)
 {
     //find the FavItem
-    int index = findFavItem(url);
-    FavItem *fi = _favList[index];
+    vector<FavItem *>::iterator it = findFavItem(url);
+    if(it != _favList.end())
+    {
+        delFavItem(it);
+    }
+    else
+    {
+        warn("Delete url failed: Didnot find favitem[url: %s] in favlist", url.data());
+    }
+    return;
+}
+
+void FavList::delFavItem(vector<FavItem *>::iterator it)
+{
+    FavItem *fi = *it;
+    string url = fi->getUrl();
 
     //first detach from list
-    _detachFavItem(index);
+    _detachFavItem(it);
 
     try
     {
@@ -157,15 +172,18 @@ void FavList::delFavItem(string url)
         //FIXME:
     }
     delete fi;
-    debug("Delete FavItem[url: %s] successful", url.c_str());
+    debug("Delete FavItem[url: %s] successful", url.data());
 }
 
+
+
 //return index for favItem if found, index begin from 0
-int FavList::findFavItem(string url)
+vector<FavItem *>::iterator FavList::findFavItem(string url)
 {
+#if 0
     if(!_favList.empty())
     {
-        for(int i=0; i<_favList.size(); i++)
+        for(uint32_t i=0; i<_favList.size(); i++)
         {
             if(_favList[i]->getUrl().compare(url) == 0)
             {
@@ -183,16 +201,32 @@ int FavList::findFavItem(string url)
         warn("FavList is empty");
     }
     return INVALID_VECTOR_INDEX;
+#else
+    UrlCompare urlcmp;
+    urlcmp.url = url;
+
+    vector<FavItem *>::iterator it;
+
+    it = find_if(_favList.begin(), _favList.end(), urlcmp);
+
+    //we also can use boost::bind to achieve this
+//    it = find_if(_favList.begin(), _favList.end(), boost::bind(&FavItem::url, _1) == url);
+
+    return it;
+#endif
 }
 
 void FavList::freeItems(void)
 {
-    int vlen = _favList.size();
-    for(int i=0; i<vlen; i++)
+    vector<FavItem *>::iterator it;
+
+    uint32_t vlen = _favList.size();
+    //it's more convenient to use number loop instead of iterator
+    for(int i=vlen-1; i>=0; i--)
     {
-        //TODO: Try to substitute with iterator
-        FavItem * fi = _favList[i];
-        delFavItem(fi->getUrl());
+        it = _favList.begin() + i;
+        if(it != _favList.end())
+            delFavItem(it);
     }
 }
 
@@ -202,23 +236,19 @@ void FavList::_attachFavItem(FavItem *favItem)
     debug("Attach a new favitem[url: %s] to favlist", favItem->getUrl().c_str());
 }
 
-void FavList::_detachFavItem(int index)
+void FavList::_detachFavItem(vector<FavItem *>::iterator it)
 {
     if(!_favList.empty())
     {
-        if(index != INVALID_VECTOR_INDEX)
-        {
-            //use begin()+index to locate the iterator
-            //index begin from 0
-            _favList.erase(_favList.begin() + index);
-            debug("Detach favitem[index: %d] from favlist", index);
-        }
-        else
-        {
-            warn("Didn't find favitem[index: %d] in favlist", index);
-        }
+        //save url first before erase
+        FavItem *fi = *it;
+        string url = fi->getUrl();
+        _favList.erase(it);
+        debug("Detach favitem[url: %s] from favlist", url.data());
+        return;
     }
     warn("FavList is empty");
+    return;
 }
 
 
@@ -226,6 +256,7 @@ string FavList::pack()
 {
     //TODO: find some library to serialize the structure
 
+    return "Unrealized";
 }
 
 void FavList::unpack(string arString)
@@ -302,10 +333,10 @@ int unitTest_FavList()
     cout << "UNIT TEST --- Added " << list.size() << " items to Fav List" << endl;
     //show list
     cout << "UNIT TEST --- Show Fav List" << endl;
-    for(int i=0; i<list.size(); i++)
+    for(uint32_t i=0; i<list.size(); i++)
     {
         FavItem *fi = list[i];
-        cout << "Item " << setw(2) << dec << i << ":\t\t"
+        cout << "Item " << setw(2) << dec << i << ":\t"
            << "Url: " << fi->getUrl() << "\t"
            << "Type: " << fi->getType() << "\t"
            << "Status: " << fi->getStatus() << endl;
@@ -327,7 +358,7 @@ int unitTest_FavList()
 
     //show list
     cout << "UNIT TEST --- Show Fav List" << endl;
-    for(int i=0; i<list.size(); i++)
+    for(uint32_t i=0; i<list.size(); i++)
     {
         FavItem *fi = list[i];
         cout << "Item " << setw(2) << dec << i << ":\t"
@@ -336,6 +367,7 @@ int unitTest_FavList()
            << "Status: " << fi->getStatus() << endl;
     }
 
+    return 0;
 }
 
 #endif

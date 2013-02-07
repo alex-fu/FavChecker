@@ -2,3 +2,4 @@ tags
 filenametags
 cscope*
 buildlog
+*.o

@@ -25,7 +25,7 @@
 #endif
 
 //FIXME: Large improvement space
-#define err(fmt, args...)   fprintf(stderr, STRERROR#fmt "\n", ##args)
+#define error(fmt, args...)   fprintf(stderr, STRERROR#fmt "\n", ##args)
 #define warn(fmt, args...)  fprintf(stdout, STRWARN#fmt "\n", ##args)
 #define info(fmt, args...)  fprintf(stdout, STRINFO#fmt "\n", ##args)
 

@@ -22,6 +22,8 @@ class SubFavList;
 class FavItem
 {
 public:
+    friend class FavList;
+
     typedef enum FavItemType
     {
         FavItemType_Dft,
@@ -81,6 +83,22 @@ private:
 class FavList
 {
 public:
+    //define this internal class for url compare
+    class UrlCompare
+    {
+    public:
+        std::string url;
+
+        bool operator()(FavItem * fi)
+        {
+//            if(fi->getUrl().compare(url) == 0)  //also right
+            if(fi->getUrl() == url)
+                return true;
+            return false;
+        }
+    };
+
+public:
     typedef enum FavListType
     {
         FavListType_Main,
@@ -92,14 +110,16 @@ public:
     FavList(void);
     virtual ~FavList(void);
 
-    int size();
+    uint32_t size();
 
     FavItem * operator[](int index); //TODO
 
     virtual FavItem * addFavItem(std::string url);
     void delFavItem(std::string url);
+    void delFavItem(std::vector<FavItem *>::iterator it);
 
-    int findFavItem(std::string url);
+//    int findFavItem(std::string url);
+    std::vector<FavItem *>::iterator findFavItem(std::string url);
 
     void freeItems(void);
 
@@ -108,7 +128,7 @@ public:
 
 protected:
     void _attachFavItem(FavItem * favItem);
-    void _detachFavItem(int index);
+    void _detachFavItem(std::vector<FavItem *>::iterator it);
 
 protected:
     std::vector<FavItem *> _favList;
