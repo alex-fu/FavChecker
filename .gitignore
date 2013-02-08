@@ -3,3 +3,4 @@ filenametags
 cscope*
 buildlog
 *.o
+*.swp
