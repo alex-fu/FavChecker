@@ -21,6 +21,10 @@
 
 #include <boost/test/unit_test.hpp>
 
+#define AUTO_TEST_SUITE(s_name) BOOST_AUTO_TEST_SUITE(s_name)
+#define AUTO_TEST_CASE(t_name) BOOST_AUTO_TEST_CASE(t_name)
+#define AUTO_TEST_SUITE_END() BOOST_AUTO_TEST_SUITE_END()
+
 //this 3 function for print messages
 #define TEST_MESSAGE(message) BOOST_TEST_MESSAGE(message) //print message, no error happened
 #define TEST_ERROR(message) BOOST_ERROR(message)  //print error message, continue test

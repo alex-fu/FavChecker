@@ -4,7 +4,7 @@ CFLAGS=-Wall -g
 CPPFLAGS=
 CXXFLAGS+=-D_UNIT_TEST
 #CXXFLAGS+=-D_DEBUG 
-LDFLAGS=-lboost_unit_test_framework
+LDFLAGS=-lboost_unit_test_framework -lboost_date_time
 
 UNITTEST_OBJS:=$(patsubst %.cpp,%.o,$(wildcard *.cpp))
 UNITTEST=test

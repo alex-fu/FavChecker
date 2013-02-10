@@ -19,14 +19,14 @@
 using namespace std;
 using namespace boost;
 
-BOOST_AUTO_TEST_SUITE(s_favlist)
+AUTO_TEST_SUITE(s_favlist)
 
 /////////////////////////////////////////
 //
 // Unit test function for Favlist
 //
 /////////////////////////////////////////
-BOOST_AUTO_TEST_CASE(t_favlist)
+AUTO_TEST_CASE(t_favlist)
 {
     FavList list;
     TEST_MESSAGE("UNIT TEST --- Fav List submodule");
@@ -39,7 +39,7 @@ BOOST_AUTO_TEST_CASE(t_favlist)
         urlss << "http://www.example.com/test" << std::dec << i;
         list.addFavItem(urlss.str());
     }
-    BOOST_MESSAGE("UNIT TEST --- Added items to Fav List");
+    TEST_MESSAGE("UNIT TEST --- Added items to Fav List");
     
     CHECK_EQUAL(list.size(), 10);
 
@@ -86,6 +86,6 @@ BOOST_AUTO_TEST_CASE(t_favlist)
     }
 }
 
-BOOST_AUTO_TEST_SUITE_END()
+AUTO_TEST_SUITE_END()
 
 #endif
